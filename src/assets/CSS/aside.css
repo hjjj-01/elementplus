@@ -1,0 +1,23 @@
+.el-sub-menu__title:hover{
+    background-color: #8e9291 !important;
+}
+.el-form-item__label{
+    color: #272626;
+    font-size: 2vh;
+    font-family: '微软雅黑';
+}
+/* 选择框 */
+.el-select__wrapper {
+    background-color: #e9ebeb;
+    color: #363636;
+
+}
+/* 框内选项 */
+.el-select__selected-item{
+    color: #363636;
+    font-size: 2vh;
+}
+.option{
+    color: #3f3f3f;
+    font-size: 2vh;
+}
