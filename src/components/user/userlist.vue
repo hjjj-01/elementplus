@@ -29,9 +29,9 @@
             <el-form  style="font-size: 50px;">
                 <el-form-item label="更改权限:" :style="{marginTop: '1vh',color:'black'}">
                     <el-select v-model="powerdialog.change_power" style="width: 240px;">
-                        <el-option label="administrator" value="administrator" class="option"/>
-                        <el-option label="customer" value="editer" class="option"/>
-                        <el-option label="test" value="viewer" class="option"/>
+                        <el-option label="admin" value="admin" class="option"/>
+                        <el-option label="editer" value="editer" class="option"/>
+                        <el-option label="viewer" value="viewer" class="option"/>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -232,10 +232,6 @@
         
     }
 
-    .el-select{
-        background-color: aquamarine !important;
-
-    }
     .userlist{
         display: flex;
         justify-content: center !important;

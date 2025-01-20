@@ -19,7 +19,7 @@
     </div>
     <div class="user-list"  v-if="route.name === 'powerlist'">
         <div>
-            <h1>角色管理</h1>
+            <h1>权限列表</h1>
             <Powerlist/> 
         </div>
                 

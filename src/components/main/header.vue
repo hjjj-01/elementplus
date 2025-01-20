@@ -17,7 +17,7 @@
                     <el-icon><Setting/></el-icon><p :style="{color: '#fff'}">设置</p>
                 </template>
                 <el-menu-item index="3-1" v-if="user!='未登录'">
-                    <div >切换用户</div>
+                    <div  @click="dialogVisible=true">切换用户</div>
                 </el-menu-item>
                 <el-menu-item index="3-2">
                     <div v-if="user=='未登录'" @click="dialogVisible=true">登录用户</div>
@@ -63,7 +63,6 @@
     })
 
     const surelogin =async ()=>{
-        console.log(nextuser.value)
         if(nextuser.value.name.length<3 || nextuser.value.name.length>6||nextuser.value.pwd.length<3 || nextuser.value.pwd.length>10){
             ElMessage.error('用户名或密码长度不正确')
             return
@@ -106,6 +105,7 @@
         store.commit('setlogin','未登录')
         store.commit('setpower','未登录')
     }
+   
 
 </script>
 <style scoped>
