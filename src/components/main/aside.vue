@@ -3,7 +3,7 @@
         mode="vertical"
         id="aside-menu"
     >
-        <el-sub-menu index="1">
+        <el-sub-menu index="1" v-if="user_power=='admin'">
             <template #title>
                 <el-icon><User/></el-icon><span>用户管理</span>
             </template>
@@ -12,27 +12,27 @@
                 用户列表
             </el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="2">
+        <el-sub-menu index="2" v-if="user_power=='admin'">
             <template #title>
                 <el-icon><Folder/></el-icon><span>权限管理</span>
             </template>
             <el-menu-item index="2-1" @click="router.push('/poweruser')"><el-icon><Folder/></el-icon>角色管理</el-menu-item>
             <el-menu-item index="2-2" @click="router.push('/powerlist')"><el-icon><Folder/></el-icon>权限列表</el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="3">
+        <el-sub-menu index="3" v-if="user_power=='editer'||user_power=='admin'">
             <template #title>
                 <el-icon><Shop/></el-icon><span>商品管理</span>
             </template>
             <el-menu-item index="3-1" @click="router.push('/shoplist')"><el-icon><Shop/></el-icon>商品列表</el-menu-item>
             <el-menu-item index="3-2" @click="router.push('/shopclass')"><el-icon><Shop/></el-icon>商品分类</el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="4">
+        <el-sub-menu index="4" v-if="user_power=='admin' || user_power=='viewer'">
             <template #title>
                 <el-icon><Goods/></el-icon><span>订单管理</span>
             </template>
             <el-menu-item index="4-1"><el-icon><Goods/></el-icon>订单列表</el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="5">
+        <el-sub-menu index="5" v-if="user_power=='admin'||user_power=='viewer'">
             <template #title>
                 <el-icon><DataLine /></el-icon><span>数据详情</span>
             </template>
@@ -42,10 +42,13 @@
 </template>
 
 <script setup>
-
+    import {useStore} from 'vuex'
     import {useRouter} from 'vue-router'
+    import {computed} from 'vue'
     const router = useRouter()
-
+    const store = useStore()
+    const user_power=computed(()=>store.state.vlogin_power)
+    console.log(user_power.value)
     const gouserlist = () =>{
         router.push('/userlist')
     }

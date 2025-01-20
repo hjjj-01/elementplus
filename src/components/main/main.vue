@@ -1,7 +1,7 @@
 <template>
     <!-- <el-button type="primary" @click="a">查看路由</el-button> -->
     <div class="user-list" v-if="route.name === 'home'" id="home">
-        您已登录后台管理系统
+        {{text}}
     </div>
     <div class="user-list"  v-if="route.name === 'userlist'">
         <div>
@@ -47,13 +47,17 @@
     import Shoplist from '../shops/shoplist.vue'
 
     import { useRoute } from 'vue-router';
+    import { computed } from 'vue';
+    import { useStore } from 'vuex';
 
-
+    const store = useStore()
     const route =useRoute();
 
-    const a = () => {
-        console.log(route.name);
-    }
+    const user_power=computed(()=>store.state.vlogin_power)
+    const text = computed(()=>{
+        return user_power.value==='未登录'? '您还未登录':'您已进入后台管理系统'
+    })
+
 </script>
 <style scoped>
     .user-list {
@@ -72,6 +76,6 @@
         text-align: center;
         font-family: '楷体';
         font-size: 7vh;
-        line-height: 90vh;
+        line-height: 88vh;
     }
 </style>

@@ -14,7 +14,7 @@
                     <el-button type="warning" @click="changemes($index)"> 
                         <el-icon><Tools/></el-icon>
                     </el-button>
-                    <el-button type="danger" @click="delvisiable = true">
+                    <el-button type="danger" @click=deluser($index)>
                         <el-icon><Delete/></el-icon>
                     </el-button>
                 </template>
@@ -30,8 +30,8 @@
                 <el-form-item label="更改权限:" :style="{marginTop: '1vh',color:'black'}">
                     <el-select v-model="powerdialog.change_power" style="width: 240px;">
                         <el-option label="administrator" value="administrator" class="option"/>
-                        <el-option label="customer" value="customer" class="option"/>
-                        <el-option label="test" value="test" class="option"/>
+                        <el-option label="customer" value="editer" class="option"/>
+                        <el-option label="test" value="viewer" class="option"/>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -58,10 +58,10 @@
         </el-dialog>
 
         <!-- 删除-->
-        <el-dialog v-model="delvisiable" title="删除用户" width=30vw  align-center>
-            <span>确定删除此用户吗？</span>
+        <el-dialog v-model="delvisiable" title="删除用户" width=20vw  >
+            <span>确定删除此用户吗？({{ deldialog.user_name }})</span>
             <template #footer>
-                <el-button type="primary" @click="delvisiable = false">确定</el-button>
+                <el-button type="primary" @click="suredel()">确定</el-button>
             </template>
         </el-dialog>
     </div>
@@ -98,8 +98,11 @@
         change_pwd: '',
         change_name: '',
     });
-
-
+    const deldialog=ref({
+        user_id: '',
+        user_name: '',
+    });
+    
     // 修改权限按钮点击事件
     const changepower = (index) =>{
         powerdialog.value.id = userlistdata.value[index].user_id;
@@ -114,6 +117,12 @@
         mesdialog.value.change_name = userlistdata.value[index].user_name;
         mesdialog.value.change_pwd = userlistdata.value[index].user_pwd;
         mesvisible.value = true;
+    }
+    const deluser = (index)=>{
+        deldialog.value.user_id=userlistdata.value[index].user_id;
+        deldialog.value.user_name=userlistdata.value[index].user_name;
+        delvisiable.value=true;
+    
     }
     // 确定修改权限
     const surechange = async () => {
@@ -176,6 +185,32 @@
         mesdialog.value.change_name = '';
         mesdialog.value.change_pwd = '';
         mesvisible.value = false;
+        getuserslist();
+    }
+    const suredel = async () => {
+        console.log(deldialog.value.user_id);
+        await fetch('http://localhost:3003/deluser',{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                id:deldialog.value.user_id
+            })
+        })
+        .then(response => response.json())
+        .then(result =>{
+            if(result.success){
+                ElMessage.success(result.message);
+            }else{
+                ElMessage.error(result.message)      
+            }
+        })
+        .catch(error =>{
+            console.error('服务器错误', error);
+            ElMessage.error('服务器错误');
+        })
+        delvisiable.value = false;
         getuserslist();
     }
 

@@ -16,6 +16,34 @@ const config = {
         trustServerCertificate: true
     }
 }
+//login接口
+app.post('/login',async(req,res)=>{
+    try{
+        const {name,pwd} = req.body
+        if(!name ||!pwd){
+            return res.json({success:false,message:'11'})
+        }else{
+            await sql.connect(config)            
+        }
+        const request = new sql.Request()
+        request.input('name',sql.NVarChar,name)
+        request.input('pwd',sql.NVarChar,pwd)
+        const result = await request.query('select * from users where user_name=@name and user_pwd=@pwd')
+        if(result.rowsAffected[0]>0){
+            res.json({success:true,message:'登录成功',data:result.recordset[0]
+                
+            })
+        }else{
+            res.json({success:false,message:'用户名或密码错误'})
+        }       
+        
+    }catch(err){
+        res.json({success:false,message:err})
+    }
+})
+
+
+
 //User接口
 //获取用户列表
 app.get('/userslist',async (req,res)=>{
@@ -74,7 +102,28 @@ app.post('/changemes',async(req,res)=>{
 
     
 })
-
+//删除用户
+app.post('/deluser',async(req,res)=>{
+    try{
+        const {id}=req.body
+        if(!id){
+            console.log('缺少必要的参数')
+            res.json({success:false,message:'缺少必要的参数'})
+        }else{
+            await sql.connect(config)
+        }
+        const request = new sql.Request();
+        request.input('id',sql.Int,id)
+        const result = await request.query('delete from users where user_id=@id')
+        if(result.rowsAffected[0]>0){
+            res.json({success:true,message:'用户删除成功'})
+        }else{
+            res.json({success:false,message:'未找到指定用户或删除失败'})
+        }
+    }catch(err){
+        res.json({success:false,message:err})
+    }
+})
 
 //Power接口
 //获取角色列表
