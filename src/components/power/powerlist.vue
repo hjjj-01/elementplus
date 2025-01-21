@@ -24,6 +24,9 @@
         </el-table>      
          
     </div>
+    <el-dialog>
+        
+    </el-dialog>
     
 </template>
 <script setup>

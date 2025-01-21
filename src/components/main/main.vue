@@ -18,6 +18,9 @@
                 
     </div>
     <div class="user-list"  v-if="route.name === 'powerlist'">
+
+
+        
         <div>
             <h1>权限列表</h1>
             <Powerlist/> 
